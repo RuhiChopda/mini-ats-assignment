@@ -1,0 +1,4 @@
+node_modules
+ats.db*
+.env
+*.zip

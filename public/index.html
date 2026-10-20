@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini ATS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M16 4l13 24H3z%27 fill=%27%234f46e5%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo">▲</span> Mini ATS</div>
+  <nav>
+    <button class="tab active" data-view="dashboard">Dashboard</button>
+    <button class="tab" data-view="pipeline">Pipeline</button>
+    <button class="tab" data-view="candidates">Candidates</button>
+  </nav>
+  <button id="addBtn" class="btn primary">+ Add candidate</button>
+</header>
+
+<main>
+  <section id="view-dashboard" class="view"></section>
+
+  <section id="view-pipeline" class="view hidden">
+    <div class="toolbar"><input id="pipeSearch" type="search" placeholder="Search pipeline…" aria-label="Search pipeline"></div>
+    <div id="board" class="board"></div>
+  </section>
+
+  <section id="view-candidates" class="view hidden">
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="Search name, email, position, skill…" aria-label="Search candidates">
+      <select id="fStage" aria-label="Stage filter"><option value="">All stages</option></select>
+      <select id="fPosition" aria-label="Position filter"><option value="">All positions</option></select>
+      <select id="fSource" aria-label="Source filter"><option value="">All sources</option></select>
+      <select id="fExp" aria-label="Experience filter">
+        <option value="">Any experience</option><option value="2">2+ yrs</option><option value="5">5+ yrs</option><option value="8">8+ yrs</option>
+      </select>
+      <button id="clearFilters" class="btn">Clear</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th data-sort="name">Name</th><th data-sort="position">Position</th><th>Skills</th>
+          <th data-sort="experience_years">Exp</th><th data-sort="stage">Stage</th>
+          <th data-sort="rating">Rating</th><th data-sort="created_at">Applied</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div id="count" class="muted"></div>
+  </section>
+</main>
+
+<!-- Candidate form modal -->
+<dialog id="formDlg">
+  <form id="candForm" method="dialog">
+    <h2 id="formTitle">Add candidate</h2>
+    <div class="grid2">
+      <label>Name *<input name="name" required></label>
+      <label>Email *<input name="email" type="email" required></label>
+      <label>Phone<input name="phone"></label>
+      <label>Position *<input name="position" list="posList" required></label>
+      <label>Experience (years)<input name="experience_years" type="number" min="0" step="0.5" value="0"></label>
+      <label>Source<select name="source"><option>LinkedIn</option><option>Referral</option><option>Job Board</option><option>Career Site</option><option>Agency</option><option>Direct</option></select></label>
+      <label>Stage<select name="stage" id="formStage"></select></label>
+      <label>Rating (0–5)<input name="rating" type="number" min="0" max="5" value="0"></label>
+    </div>
+    <label>Skills (comma separated)<input name="skills"></label>
+    <datalist id="posList"></datalist>
+    <p id="formErr" class="error"></p>
+    <div class="actions"><button type="button" class="btn" id="formCancel">Cancel</button><button class="btn primary" id="formSave" value="save">Save</button></div>
+  </form>
+</dialog>
+
+<!-- Candidate detail drawer -->
+<dialog id="detailDlg"><div id="detail"></div></dialog>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>
